@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,21 +18,31 @@ import {
 } from "@/components/ui/table";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { SquarePen, Trash2, Search, CirclePlus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useSwal from "@/hooks/useSwal";
+import MainPagination from "./MainPagination";
 
 const HomePage = () => {
+  const [search, setSearch] = useState("");
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 7,
+  });
   const { confirm } = useSwal();
+  useNavigate;
+
+  const handleSearch = () => {};
+
+  const handlePagination = (key) => {
+    const { page, total } = pagination;
+    if (key === "prev") {
+      if (page > 1) setPagination((prev) => ({ ...prev, page: page - 1 }));
+    } else {
+      if (page < total) setPagination((prev) => ({ ...prev, page: page + 1 }));
+    }
+  };
 
   const handleDelete = () => {
     console.log("delete!");
@@ -43,8 +53,13 @@ const HomePage = () => {
       <div className="container space-y-4">
         <div className="flex justify-between">
           <div className="w-1/3 flex gap-1">
-            <Input type="text" placeholder="Search..." />
-            <Button>
+            <Input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button onClick={handleSearch}>
               <Search />
             </Button>
           </div>
@@ -81,9 +96,12 @@ const HomePage = () => {
                   <TableCell className="text-right">$250.00</TableCell>
                   <TableCell className="text-right">$250.00</TableCell>
                   <TableCell className="text-right flex gap-2 justify-end">
-                    <Button variant="outline" size="icon">
-                      <SquarePen />
-                    </Button>
+                    <Link to={`/create/1`}>
+                      <Button variant="outline" size="icon">
+                        <SquarePen />
+                      </Button>
+                    </Link>
+
                     <Button
                       variant="destructive"
                       size="icon"
@@ -97,22 +115,10 @@ const HomePage = () => {
             </Table>
           </CardContent>
           <CardFooter>
-            <Pagination className="justify-end">
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+            <MainPagination
+              pagination={pagination}
+              handlePagination={handlePagination}
+            />
           </CardFooter>
         </Card>
       </div>

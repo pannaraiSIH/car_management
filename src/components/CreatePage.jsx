@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -51,6 +51,7 @@ const CreatePage = () => {
     remark: "",
   });
   const { success } = useSwal();
+  const { id } = useParams();
 
   const handleChange = (key, value) => {
     setCarForm((prev) => ({ ...prev, [key]: value }));
@@ -60,6 +61,11 @@ const CreatePage = () => {
     e.preventDefault();
     success();
   };
+
+  useEffect(() => {
+    const fetchCar = async () => {};
+    fetchCar();
+  }, [id]);
 
   return (
     <section className="container">
