@@ -22,6 +22,7 @@ import { SquarePen, Trash2, Search, CirclePlus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useSwal from "@/hooks/useSwal";
 import MainPagination from "./MainPagination";
+import Loader from "./Loader";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -30,7 +31,7 @@ const HomePage = () => {
     limit: 10,
     total: 7,
   });
-  const { confirm } = useSwal();
+  const { isLoading, confirm } = useSwal();
   useNavigate;
 
   const handleSearch = () => {};
@@ -50,6 +51,7 @@ const HomePage = () => {
 
   return (
     <section className="mt-4">
+      {isLoading && <Loader />}
       <div className="container space-y-4">
         <div className="flex justify-between">
           <div className="w-1/3 flex gap-1">

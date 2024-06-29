@@ -1,9 +1,16 @@
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 const useSwal = () => {
-  const loading = () => {};
+  const [isLoading, setIsLoading] = useState(false);
 
-  const hideLoading = () => {};
+  const loading = () => {
+    setIsLoading(true);
+  };
+
+  const hideLoading = () => {
+    setIsLoading(false);
+  };
 
   const success = ({ title = "" } = {}) => {
     return Swal.fire({
@@ -35,7 +42,7 @@ const useSwal = () => {
     });
   };
 
-  return { loading, hideLoading, success, error, confirm };
+  return { isLoading, loading, hideLoading, success, error, confirm };
 };
 
 export default useSwal;

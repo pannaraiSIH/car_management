@@ -1,4 +1,5 @@
-// eslint-disable-next-line react/prop-types
+/* eslint-disable react/prop-types */
+
 const Navbar = ({ children }) => {
   return (
     <>
