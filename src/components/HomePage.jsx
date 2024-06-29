@@ -29,8 +29,15 @@ import {
 } from "@/components/ui/pagination";
 import { SquarePen, Trash2, Search, CirclePlus } from "lucide-react";
 import { Link } from "react-router-dom";
+import useSwal from "@/hooks/useSwal";
 
 const HomePage = () => {
+  const { confirm } = useSwal();
+
+  const handleDelete = () => {
+    console.log("delete!");
+  };
+
   return (
     <section className="mt-4">
       <div className="container space-y-4">
@@ -77,7 +84,11 @@ const HomePage = () => {
                     <Button variant="outline" size="icon">
                       <SquarePen />
                     </Button>
-                    <Button variant="destructive" size="icon">
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => confirm(handleDelete)}
+                    >
                       <Trash2 />
                     </Button>
                   </TableCell>

@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import useSwal from "@/hooks/useSwal";
 
 const carBrands = [
   "Audi",
@@ -49,13 +50,15 @@ const CreatePage = () => {
     model: "",
     remark: "",
   });
+  const { success } = useSwal();
 
   const handleChange = (key, value) => {
     setCarForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    success();
   };
 
   return (
@@ -125,7 +128,9 @@ const CreatePage = () => {
               <p>Cancel</p>
             </Button>
           </Link>
-          <Button>Create</Button>
+          <Button type="submit" onClick={handleSubmit}>
+            Create
+          </Button>
         </CardFooter>
       </Card>
     </section>
