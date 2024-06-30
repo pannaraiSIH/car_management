@@ -18,25 +18,26 @@ import {
 
 const MainPagination = ({ pagination, setPagination, handlePagination }) => {
   return (
-    <div className="flex">
-      <Select
-        className="justify-self-end"
-        defaultValue={pagination.limit}
-        onValueChange={(value) =>
-          setPagination((prev) => ({ ...prev, limit: value }))
-        }
-      >
-        <SelectTrigger className="w-[100px]">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {[5, 10, 20].map((item) => (
-            <SelectItem value={item} key={item}>
-              {item}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="flex justify-end">
+        <Select
+          defaultValue={pagination.limit}
+          onValueChange={(value) =>
+            setPagination((prev) => ({ ...prev, limit: value }))
+          }
+        >
+          <SelectTrigger className="w-[80px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {[5, 10, 20].map((item) => (
+              <SelectItem value={item} key={item}>
+                {item}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <Pagination className="justify-end">
         <PaginationContent>

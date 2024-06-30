@@ -81,7 +81,8 @@ const HomePage = () => {
   return (
     <section className="mt-4">
       {isLoading && <Loader />}
-      <div className="container space-y-4">
+
+      <div className="container space-y-4 pb-12">
         <div className="flex justify-end">
           <Link to="/create">
             <Button className="space-x-2">
@@ -90,7 +91,7 @@ const HomePage = () => {
             </Button>
           </Link>
         </div>
-        {/* table */}
+
         <Card>
           <CardHeader>
             <CardTitle className="text-xl">CARS</CardTitle>
@@ -100,12 +101,16 @@ const HomePage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="">No.</TableHead>
-                  <TableHead className="">License plate</TableHead>
+                  <TableHead className="text-nowrap">License plate</TableHead>
                   <TableHead>Brand</TableHead>
                   <TableHead>Model</TableHead>
                   <TableHead className="text-center">Remark</TableHead>
-                  <TableHead className="text-right">Created at</TableHead>
-                  <TableHead className="text-right">Updated at</TableHead>
+                  <TableHead className="text-right text-nowrap">
+                    Created at
+                  </TableHead>
+                  <TableHead className="text-right text-nowrap">
+                    Updated at
+                  </TableHead>
                   <TableHead className="text-right">Operations</TableHead>
                 </TableRow>
               </TableHeader>
