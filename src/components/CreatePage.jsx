@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -112,7 +111,9 @@ const CreatePage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="uppercase text-xl">Create</CardTitle>
+          <CardTitle className="uppercase text-xl">
+            {!id ? "Create" : "Update"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form action="" onSubmit={handleSubmit}>

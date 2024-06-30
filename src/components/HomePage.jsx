@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -15,9 +14,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { SquarePen, Trash2, Search, CirclePlus } from "lucide-react";
+import { SquarePen, Trash2, CirclePlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import useSwal from "@/hooks/useSwal";
 import MainPagination from "./MainPagination";
@@ -26,11 +24,10 @@ import axiosInstance from "@/services/axiosInstance";
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);
-  const [search, setSearch] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
-    total: 7,
+    total: 1,
   });
   const { isLoading, success, confirm, loading, hideLoading, error } =
     useSwal();
@@ -38,8 +35,6 @@ const HomePage = () => {
   const dateFormat = (date) => {
     return new Date(date).toLocaleDateString();
   };
-
-  const handleSearch = () => {};
 
   const handlePagination = (key) => {
     const { page, total } = pagination;
@@ -98,7 +93,7 @@ const HomePage = () => {
         {/* table */}
         <Card>
           <CardHeader>
-            <CardTitle>Cars</CardTitle>
+            <CardTitle className="text-xl">CARS</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
