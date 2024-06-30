@@ -15,7 +15,7 @@ const useSwal = () => {
   const success = ({ title = "" } = {}) => {
     return Swal.fire({
       icon: "success",
-      title: title || "Your car has been created",
+      title: title || "Created!",
       timer: 1500,
     });
   };
@@ -23,8 +23,9 @@ const useSwal = () => {
   const error = ({ title = "", text = "" } = {}) => {
     return Swal.fire({
       icon: "error",
-      title: title ? title : "Oops...",
+      title: title ? title : "Error",
       text: text || "Something went wrong!",
+      timer: 1500,
     });
   };
 
@@ -33,11 +34,10 @@ const useSwal = () => {
       title: "Do you want to delete?",
       showCancelButton: true,
       confirmButtonText: "Delete",
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        fn();
-        Swal.fire("Delete!", "", "success");
+        return fn();
+        // Swal.fire("Delete!", "", "success");
       }
     });
   };

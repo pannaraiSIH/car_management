@@ -11,4 +11,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    "process.env": { BACKEND_URL: "http://localhost:3000/api" },
+  },
 });

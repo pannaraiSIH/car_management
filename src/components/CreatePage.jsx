@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import useSwal from "@/hooks/useSwal";
+import axiosInstance from "@/services/axiosInstance";
+import Loader from "./Loader";
 
 const carBrands = [
   "Audi",
@@ -50,25 +52,61 @@ const CreatePage = () => {
     model: "",
     remark: "",
   });
-  const { success } = useSwal();
+  const { isLoading, success, error, loading, hideLoading } = useSwal();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleChange = (key, value) => {
     setCarForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    success();
+    try {
+      const { licensePlate, brand, model } = carForm;
+      if (!licensePlate || !brand || !model) return;
+
+      loading();
+
+      if (!id) {
+        await axiosInstance.post("/cars", carForm);
+      } else {
+        await axiosInstance.patch(`/cars/${id}`, carForm);
+      }
+
+      success({ title: "Updated!" });
+      setTimeout(() => navigate("/"), 2000);
+    } catch (err) {
+      error();
+    }
   };
 
   useEffect(() => {
-    const fetchCar = async () => {};
-    fetchCar();
+    const fetchCars = async () => {
+      try {
+        loading();
+
+        const res = await axiosInstance.get(`/cars/${id}`);
+        if (res.error) throw new Error(res.message);
+
+        delete res.data.createdAt;
+        delete res.data.updatedAt;
+        delete res.data.__v;
+        delete res.data._id;
+        hideLoading();
+        setCarForm(res.data);
+      } catch (err) {
+        error({ text: err.message });
+        setTimeout(() => navigate("/"), 2000);
+      }
+    };
+    fetchCars();
   }, [id]);
 
   return (
     <section className="container">
+      {isLoading && <Loader />}
+
       <Card>
         <CardHeader>
           <CardTitle className="uppercase text-xl">Create</CardTitle>
@@ -135,7 +173,7 @@ const CreatePage = () => {
             </Button>
           </Link>
           <Button type="submit" onClick={handleSubmit}>
-            Create
+            {id ? "Update" : "Create"}
           </Button>
         </CardFooter>
       </Card>
