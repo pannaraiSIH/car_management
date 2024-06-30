@@ -74,7 +74,7 @@ const CreatePage = () => {
         await axiosInstance.patch(`/cars/${id}`, carForm);
       }
 
-      success({ title: "Updated!" });
+      success({ title: !id ? "Created!" : "Updated!" });
       setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       error();
@@ -82,6 +82,8 @@ const CreatePage = () => {
   };
 
   useEffect(() => {
+    if (!id) return;
+
     const fetchCars = async () => {
       try {
         loading();
@@ -100,6 +102,7 @@ const CreatePage = () => {
         setTimeout(() => navigate("/"), 2000);
       }
     };
+
     fetchCars();
   }, [id]);
 

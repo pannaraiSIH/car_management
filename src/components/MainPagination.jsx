@@ -8,81 +8,111 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const MainPagination = ({ pagination, handlePagination }) => {
+const MainPagination = ({ pagination, setPagination, handlePagination }) => {
   return (
-    <Pagination className="justify-end">
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            href="#"
-            onClick={() => handlePagination("prev")}
-          />
-        </PaginationItem>
-        {pagination.total < 5 &&
-          Array.from({ length: pagination.total }, (_, idx) => (
-            <PaginationItem key={idx}>
-              <PaginationLink href="#">{idx + 1}</PaginationLink>
-            </PaginationItem>
+    <div className="flex">
+      <Select
+        className="justify-self-end"
+        defaultValue={pagination.limit}
+        onValueChange={(value) =>
+          setPagination((prev) => ({ ...prev, limit: value }))
+        }
+      >
+        <SelectTrigger className="w-[100px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {[5, 10, 20].map((item) => (
+            <SelectItem value={item} key={item}>
+              {item}
+            </SelectItem>
           ))}
-        {pagination.total > 5 &&
-          pagination.page <= 5 &&
-          Array.from({ length: 5 }, (_, idx) => (
-            <PaginationItem key={idx}>
-              <PaginationLink href="#" isActive={pagination.page === idx + 1}>
-                {idx + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-        {pagination.total > 5 &&
-          pagination.page > 5 &&
-          pagination.page <= pagination.total - 3 && (
-            <>
-              <PaginationItem>
-                <PaginationEllipsis />
+        </SelectContent>
+      </Select>
+
+      <Pagination className="justify-end">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              onClick={() => handlePagination("prev")}
+            />
+          </PaginationItem>
+          {pagination.total < 5 &&
+            Array.from({ length: pagination.total }, (_, idx) => (
+              <PaginationItem key={idx}>
+                <PaginationLink href="#" isActive={pagination.page === idx + 1}>
+                  {idx + 1}
+                </PaginationLink>
               </PaginationItem>
-              {Array.from(
-                { length: 3 },
-                (_, idx) =>
-                  idx + pagination.page <= pagination.total && (
-                    <PaginationItem key={idx + 1}>
-                      <PaginationLink
-                        href="#"
-                        isActive={pagination.page === idx + pagination.page}
-                      >
-                        {idx + pagination.page}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )
-              )}
-            </>
-          )}
-        {pagination.total > 5 &&
-          pagination.page > 5 &&
-          pagination.page > pagination.total - 3 && (
-            <>
-              <PaginationItem>
-                <PaginationEllipsis />
+            ))}
+          {pagination.total > 5 &&
+            pagination.page <= 5 &&
+            Array.from({ length: 5 }, (_, idx) => (
+              <PaginationItem key={idx}>
+                <PaginationLink href="#" isActive={pagination.page === idx + 1}>
+                  {idx + 1}
+                </PaginationLink>
               </PaginationItem>
-              {Array.from({ length: 3 }, (_, idx) => (
-                <PaginationItem key={idx + 1}>
-                  <PaginationLink
-                    href="#"
-                    isActive={
-                      pagination.page === pagination.total - (3 - idx - 1)
-                    }
-                  >
-                    {pagination.total - (3 - idx - 1)}
-                  </PaginationLink>
+            ))}
+          {pagination.total > 5 &&
+            pagination.page > 5 &&
+            pagination.page <= pagination.total - 3 && (
+              <>
+                <PaginationItem>
+                  <PaginationEllipsis />
                 </PaginationItem>
-              ))}
-            </>
-          )}
-        <PaginationItem>
-          <PaginationNext href="#" onClick={() => handlePagination("next")} />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+                {Array.from(
+                  { length: 3 },
+                  (_, idx) =>
+                    idx + pagination.page <= pagination.total && (
+                      <PaginationItem key={idx + 1}>
+                        <PaginationLink
+                          href="#"
+                          isActive={pagination.page === idx + pagination.page}
+                        >
+                          {idx + pagination.page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                )}
+              </>
+            )}
+          {pagination.total > 5 &&
+            pagination.page > 5 &&
+            pagination.page > pagination.total - 3 && (
+              <>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                {Array.from({ length: 3 }, (_, idx) => (
+                  <PaginationItem key={idx + 1}>
+                    <PaginationLink
+                      href="#"
+                      isActive={
+                        pagination.page === pagination.total - (3 - idx - 1)
+                      }
+                    >
+                      {pagination.total - (3 - idx - 1)}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+              </>
+            )}
+          <PaginationItem>
+            <PaginationNext href="#" onClick={() => handlePagination("next")} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
   );
 };
 

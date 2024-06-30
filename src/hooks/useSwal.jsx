@@ -13,6 +13,7 @@ const useSwal = () => {
   };
 
   const success = ({ title = "" } = {}) => {
+    hideLoading();
     return Swal.fire({
       icon: "success",
       title: title || "Created!",
@@ -21,6 +22,7 @@ const useSwal = () => {
   };
 
   const error = ({ title = "", text = "" } = {}) => {
+    hideLoading();
     return Swal.fire({
       icon: "error",
       title: title ? title : "Error",

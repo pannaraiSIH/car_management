@@ -23,7 +23,6 @@ import useSwal from "@/hooks/useSwal";
 import MainPagination from "./MainPagination";
 import Loader from "./Loader";
 import axiosInstance from "@/services/axiosInstance";
-import Swal from "sweetalert2";
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);
@@ -54,9 +53,14 @@ const HomePage = () => {
   const fetchCars = async () => {
     try {
       loading();
-      const res = await axiosInstance.get("/cars");
+      const { page, limit } = pagination;
+      const res = await axiosInstance.get(`/cars?page=${page}&limit=${limit}`);
       hideLoading();
       setCars(res.data);
+      setPagination((prev) => ({
+        ...prev,
+        total: Math.ceil(res.total / res.limit),
+      }));
     } catch (err) {
       error();
     }
@@ -77,24 +81,13 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchCars();
-  }, []);
+  }, [pagination.page, pagination.limit]);
 
   return (
     <section className="mt-4">
       {isLoading && <Loader />}
       <div className="container space-y-4">
-        <div className="flex justify-between">
-          <div className="w-1/3 flex gap-1">
-            <Input
-              type="text"
-              placeholder="Search..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Button onClick={handleSearch}>
-              <Search />
-            </Button>
-          </div>
+        <div className="flex justify-end">
           <Link to="/create">
             <Button className="space-x-2">
               <CirclePlus />
@@ -104,6 +97,9 @@ const HomePage = () => {
         </div>
         {/* table */}
         <Card>
+          <CardHeader>
+            <CardTitle>Cars</CardTitle>
+          </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
@@ -131,7 +127,9 @@ const HomePage = () => {
                 )}
                 {cars.map((car, index) => (
                   <TableRow key={car._id}>
-                    <TableCell className="font-medium">{index + 1}</TableCell>
+                    <TableCell className="font-medium">
+                      {index + 1 + pagination.limit * (pagination.page - 1)}
+                    </TableCell>
                     <TableCell className="font-medium">
                       {car.licensePlate}
                     </TableCell>
@@ -166,9 +164,10 @@ const HomePage = () => {
               </TableBody>
             </Table>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="justify-end">
             <MainPagination
               pagination={pagination}
+              setPagination={setPagination}
               handlePagination={handlePagination}
             />
           </CardFooter>
